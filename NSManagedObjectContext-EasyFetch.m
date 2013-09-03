@@ -167,4 +167,62 @@
   return [self fetchObjectsForEntityName:entityName sortWith:sortDescriptors
                            withPredicate:predicate];
 }
+
+//- (NSManagedObject*)fetchObjectForForEntityName:(NSString*)entityName
+//                            predicateWithFormat:(NSString*)predicateFormat, ...
+
+
+#pragma mark -
+#pragma mark Fetch one
+
+- (NSManagedObject*)fetchObjectForEntityName:(NSString*)entityName
+                               withPredicate:(NSPredicate*)predicate
+{
+    NSArray *results = [self fetchObjectsForEntityName:entityName withPredicate:predicate];
+    if([results count] == 0)
+        return nil;
+    else {
+        if ([results count] > 1)
+            NSLog(@"WARNING: fetchObject for %@ with predicate %@ has returned %d results, expecting 1 or 0",entityName,predicate,[results count]);
+        return [results objectAtIndex:0];
+    }
+}
+
+- (NSManagedObject*)fetchObjectForEntityName:(NSString*)entityName
+                         predicateWithFormat:(NSString*)predicateFormat, ...
+{
+    va_list variadicArguments;
+    va_start(variadicArguments, predicateFormat);
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateFormat
+                                                    arguments:variadicArguments];
+    va_end(variadicArguments);
+    
+    return [self fetchObjectForEntityName:entityName withPredicate:predicate];
+}
+
+#pragma mark -
+#pragma mark Fetch or create one
+
+- (NSManagedObject*)fetchOrCreateObjectForEntityName:(NSString*)entityName
+                                       withPredicate:(NSPredicate*)predicate
+{
+    NSManagedObject *result = [self fetchObjectForEntityName:entityName withPredicate:predicate];
+    if(result == nil) {
+        result = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self];
+    }
+    return result;
+}
+
+- (NSManagedObject*)fetchOrCreateObjectForEntityName:(NSString*)entityName
+                                 predicateWithFormat:(NSString*)predicateFormat, ...
+{
+    va_list variadicArguments;
+    va_start(variadicArguments, predicateFormat);
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateFormat
+                                                    arguments:variadicArguments];
+    va_end(variadicArguments);
+    
+    return [self fetchOrCreateObjectForEntityName:entityName withPredicate:predicate];
+}
+
 @end
