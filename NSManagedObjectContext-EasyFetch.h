@@ -143,4 +143,17 @@
 - (NSArray*)fetchObjectsForEntityName:(NSString*)entityName
                              sortWith:(NSArray*)sortDescriptors
                   predicateWithFormat:(NSString*)predicateFormat, ...;
+
+
+
+
+- (NSManagedObject*)fetchObjectForEntityName:(NSString*)entityName
+                               withPredicate:(NSPredicate*)predicate;
+- (NSManagedObject*)fetchObjectForEntityName:(NSString*)entityName
+                         predicateWithFormat:(NSString*)predicateFormat, ...;
+- (NSManagedObject*)fetchOrCreateObjectForEntityName:(NSString*)entityName
+                                       withPredicate:(NSPredicate*)predicate;
+- (NSManagedObject*)fetchOrCreateObjectForEntityName:(NSString*)entityName
+                                 predicateWithFormat:(NSString*)predicateFormat, ...;
+
 @end
