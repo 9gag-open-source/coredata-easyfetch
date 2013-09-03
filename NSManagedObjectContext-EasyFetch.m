@@ -225,4 +225,30 @@
     return [self fetchOrCreateObjectForEntityName:entityName withPredicate:predicate];
 }
 
+
+
+#pragma mark -
+#pragma mark Delete by predicate
+
+- (void)deleteObjectsForEntityName:(NSString*)entityName
+                     withPredicate:(NSPredicate*)predicate
+{
+    NSArray *results = [self fetchObjectsForEntityName:entityName withPredicate:predicate];
+    for (NSManagedObject *result in results) {
+        [self deleteObject:result];
+    }
+}
+
+- (void)deleteObjectsForEntityName:(NSString*)entityName
+               predicateWithFormat:(NSString*)predicateFormat, ...
+{
+    va_list variadicArguments;
+    va_start(variadicArguments, predicateFormat);
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateFormat
+                                                    arguments:variadicArguments];
+    va_end(variadicArguments);
+    
+    return [self deleteObjectsForEntityName:entityName withPredicate:predicate];
+}
+
 @end

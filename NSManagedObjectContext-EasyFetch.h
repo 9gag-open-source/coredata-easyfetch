@@ -156,4 +156,9 @@
 - (NSManagedObject*)fetchOrCreateObjectForEntityName:(NSString*)entityName
                                  predicateWithFormat:(NSString*)predicateFormat, ...;
 
+- (void)deleteObjectsForEntityName:(NSString*)entityName
+                     withPredicate:(NSPredicate*)predicate;
+- (void)deleteObjectsForEntityName:(NSString*)entityName
+               predicateWithFormat:(NSString*)predicateFormat, ...;
+
 @end
