@@ -183,7 +183,7 @@
         return nil;
     else {
         if ([results count] > 1)
-            NSLog(@"WARNING: fetchObject for %@ with predicate %@ has returned %d results, expecting 1 or 0",entityName,predicate,[results count]);
+            NSLog(@"WARNING: fetchObject for %@ with predicate %@ has returned %lu results, expecting 1 or 0",entityName,predicate,(unsigned long)[results count]);
         return [results objectAtIndex:0];
     }
 }
